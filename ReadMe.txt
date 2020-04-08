@@ -8,3 +8,4 @@ Người chơi hãy cố gắng nhặt vật phẩm cứu trợ như Khiên, H�
 Nếu để tiền chạm đất 1 lần sẽ mất 1 mạng. 3 lần sẽ thua cuộc.
 Người chơi còn phải nhảy lên để né các vật cản gần mặt đất.
 
+Em chỉ mời tạo được chuyển động của nhân vật, em sẽ cố gắng nhiều hơn nữa ạ.
