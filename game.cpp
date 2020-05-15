@@ -14,6 +14,7 @@ SDL_Texture* h_texture = nullptr;
 SDL_Texture* h_box = nullptr;
 SDL_Texture* h_drop_box = nullptr;
 SDL_Event h_event;
+bool is_running = true;
 
 void logSDLError(std::ostream& os,
                  const std::string &smg, bool fatal = false);
@@ -61,7 +62,7 @@ SDL_Rect sourceRect;
 int x_source_rect = a;
 int y_source_rect = a;
 SDL_Rect drop_box;
-int x_drop_box = 480-a-64;
+int x_drop_box = 480-a-a;
 int y_drop_box = a;
 
 SDL_Texture *load_texture(std::string path);
@@ -69,52 +70,34 @@ SDL_Texture *load_texture(std::string path);
 void load_picture();
 
 void box_drop();
+void Move();
 
 void paint_screen();
 
 
 int main(int argc,char* agcv[]){
 
-    bool is_running = true;
+
     initSDL(window, renderer_map);
 
     SDL_RenderClear(renderer_map);
     paint_screen();
     while(is_running){
-        box_drop();
-        if(SDL_PollEvent(&h_event) == 0)continue;
+        SDL_RenderClear(renderer_map);
+        if(y_drop_box <= 240 - a/2 - a){
+            box_drop();
+        }
+        SDL_PollEvent(&h_event);
         if(h_event.type == SDL_QUIT){
             is_running = false;
             break;
         }
         if(h_event.type == SDL_KEYDOWN){
-            switch(h_event.key.keysym.sym){
-                case SDLK_ESCAPE : {
-                    is_running = false;
-                    break;
-                }
-                case SDLK_DOWN : {
-                    y_source_rect += 10;
-                    break;
-                }
-                case SDLK_UP : {
-                    y_source_rect -= 10;
-                    break;
-                }
-                case SDLK_LEFT : {
-                    x_source_rect -= 10;
-                    break;
-                }
-                case SDLK_RIGHT : {
-                    x_source_rect += 10;
-                    break;
-                }
-            }
+            Move();
+
         }
-        // lam qua bong roi
         paint_screen();
     }
-
 
     waitUntilKeyPressed();
     quitSDL(window, renderer_map);
@@ -178,7 +161,7 @@ void load_picture()
         SDL_RenderCopy(renderer_map,h_box,NULL,&sourceRect);
     }
 
-    h_drop_box = load_texture("box/drop_box.bmp");
+    h_drop_box = load_texture("box/box_drop_2.bmp");
     if(h_drop_box == nullptr){
         cout << "fail load picture" << endl;
     }else{
@@ -192,7 +175,40 @@ void load_picture()
 void box_drop()
 {
     y_drop_box += 10;
+    if(y_drop_box > 240 - a/2 - a){
+        y_drop_box = 240 - a/2 - a;
+    }
     SDL_Delay(100);
+}
+
+void Move()
+{
+    switch(h_event.key.keysym.sym){
+        case SDLK_ESCAPE : {
+            is_running = false;
+            break;
+        }
+        case SDLK_DOWN : {
+            y_source_rect += 10;
+            SDL_Delay(100);
+            break;
+        }
+        case SDLK_UP : {
+            y_source_rect -= 10;
+            SDL_Delay(100);
+            break;
+        }
+        case SDLK_LEFT : {
+            x_source_rect -= 10;
+            SDL_Delay(100);
+            break;
+        }
+        case SDLK_RIGHT : {
+            x_source_rect += 10;
+            SDL_Delay(100);
+            break;
+        }
+    }
 }
 
 void paint_screen()
